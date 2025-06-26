@@ -62,7 +62,7 @@ export default function Header() {
                 className="border-none bg-transparent p-0 shadow-none"
               >
                 {/* Buzlu Cam Menu Kartı */}
-                <div className="m-6 bg-white/70 backdrop-blur-2xl rounded-2xl border border-white/30 shadow-2xl p-6 w-80">
+                <div className="m-6 bg-white/60 backdrop-blur-2xl rounded-3xl border border-white/20 shadow-xl p-6 w-80">
                   {/* Menu Header */}
                   <div className="mb-6">
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">Menu</h2>

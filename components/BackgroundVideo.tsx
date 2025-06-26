@@ -17,8 +17,16 @@ const BackgroundVideo = () => {
     const video = videoRef.current
     if (!video) return
 
+    const handleTimeUpdate = () => {
+      // Video bitmesinden 2 saniye önce sıradaki videoya geç
+      if (video.duration && video.currentTime >= video.duration - 2) {
+        const nextIndex = (currentVideoIndex + 1) % videos.length
+        setCurrentVideoIndex(nextIndex)
+      }
+    }
+
     const handleVideoEnd = () => {
-      // Sıradaki videoya geç
+      // Fallback: Video bittiyse sıradaki videoya geç
       const nextIndex = (currentVideoIndex + 1) % videos.length
       setCurrentVideoIndex(nextIndex)
     }
@@ -42,6 +50,7 @@ const BackgroundVideo = () => {
     }
 
     // Event listener'ları ekle
+    video.addEventListener('timeupdate', handleTimeUpdate)
     video.addEventListener('ended', handleVideoEnd)
     video.addEventListener('loadstart', handleLoadStart)
     video.addEventListener('canplay', handleCanPlay)
@@ -51,6 +60,7 @@ const BackgroundVideo = () => {
     video.load()
     
     return () => {
+      video.removeEventListener('timeupdate', handleTimeUpdate)
       video.removeEventListener('ended', handleVideoEnd)
       video.removeEventListener('loadstart', handleLoadStart)
       video.removeEventListener('canplay', handleCanPlay)
