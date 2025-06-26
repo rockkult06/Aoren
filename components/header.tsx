@@ -84,25 +84,26 @@ export default function Header() {
                     ].map((item, index) => {
                       const IconComponent = item.icon;
                       return (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className="group relative block py-3 px-4 rounded-xl transition-all duration-300 ease-in-out hover:bg-white/40 hover:backdrop-blur-lg"
-                        style={{ 
-                          animationDelay: `${index * 50}ms`,
-                          animation: 'slideInLeft 0.6s ease-out forwards'
-                        }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <IconComponent className="w-5 h-5 text-gray-700 group-hover:text-blue-600 transition-colors duration-200" />
-                          <span className="text-gray-800 text-base font-medium group-hover:text-blue-600 transition-colors duration-200">
-                            {item.name}
-                          </span>
-                        </div>
-                        <div className="absolute bottom-0 left-4 right-4 h-px bg-gray-300/50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
-                      </Link>
-                    ))}
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          onClick={() => setIsMenuOpen(false)}
+                          className="group relative block py-3 px-4 rounded-xl transition-all duration-300 ease-in-out hover:bg-white/40 hover:backdrop-blur-lg"
+                          style={{ 
+                            animationDelay: `${index * 50}ms`,
+                            animation: 'slideInLeft 0.6s ease-out forwards'
+                          }}
+                        >
+                          <div className="flex items-center gap-3">
+                            <IconComponent className="w-5 h-5 text-gray-700 group-hover:text-blue-600 transition-colors duration-200" />
+                            <span className="text-gray-800 text-base font-medium group-hover:text-blue-600 transition-colors duration-200">
+                              {item.name}
+                            </span>
+                          </div>
+                          <div className="absolute bottom-0 left-4 right-4 h-px bg-gray-300/50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
 
