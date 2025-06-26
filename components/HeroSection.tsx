@@ -40,12 +40,12 @@ margin-top: 80px;
 const InfoBox = styled.div`
 background-color: rgba(255, 255, 255, 0.15);
 backdrop-filter: blur(10px);
-padding: 40px 30px;
-border-radius: 12px;
+padding: 45px 35px;
+border-radius: 20px;
 cursor: pointer;
 transition: all 0.3s ease;
-width: 320px;
-min-height: 220px;
+width: 380px;
+min-height: 240px;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -58,6 +58,7 @@ box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.25);
   transform: translateY(-5px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 24px;
 }
 
 h2 {
@@ -80,8 +81,13 @@ p {
 
 @media (max-width: 768px) {
   width: 100%;
-  padding: 30px 25px;
+  padding: 35px 30px;
   min-height: auto;
+  border-radius: 18px;
+  
+  &:hover {
+    border-radius: 22px;
+  }
 }
 `
 
