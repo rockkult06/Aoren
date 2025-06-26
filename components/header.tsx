@@ -59,13 +59,13 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent 
                 side="left" 
-                className="w-[400px] bg-black/20 backdrop-blur-xl border-r border-white/10"
+                className="w-[400px] bg-white/90 backdrop-blur-xl border-r border-gray-200/30"
               >
                 <div className="flex flex-col space-y-1 mt-8 px-2">
                   {/* Menu Header */}
                   <div className="mb-8">
-                    <h2 className="text-2xl font-bold text-white mb-2">Menu</h2>
-                    <div className="w-12 h-0.5 bg-blue-400"></div>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Menu</h2>
+                    <div className="w-12 h-0.5 bg-blue-500"></div>
                   </div>
 
                   {/* Menu Items */}
@@ -84,16 +84,16 @@ export default function Header() {
                       key={item.name}
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="group relative block py-4 px-4 rounded-lg transition-all duration-300 ease-in-out hover:bg-white/10 hover:backdrop-blur-lg"
+                      className="group relative block py-4 px-4 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-100/80 hover:backdrop-blur-lg"
                       style={{ 
                         animationDelay: `${index * 50}ms`,
                         animation: 'slideInLeft 0.6s ease-out forwards'
                       }}
                     >
-                      <span className="text-white text-lg font-medium group-hover:text-blue-200 transition-colors duration-200">
+                      <span className="text-gray-800 text-lg font-medium group-hover:text-blue-600 transition-colors duration-200">
                         {item.name}
                       </span>
-                      <div className="absolute bottom-0 left-4 right-4 h-px bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
+                      <div className="absolute bottom-0 left-4 right-4 h-px bg-gray-300/50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
                     </Link>
                   ))}
                 </div>
