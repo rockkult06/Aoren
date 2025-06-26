@@ -5,7 +5,8 @@ import styled from "styled-components"
 
 const MainContentContainer = styled.div`
   padding: 120px 40px 80px 40px;
-  background-color: #f9f9f9;
+  background: rgba(249, 249, 249, 0.9);
+  backdrop-filter: blur(2px);
   color: #333;
 
   @media (max-width: 768px) {

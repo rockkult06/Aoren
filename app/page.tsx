@@ -3,6 +3,7 @@ import Header from "@/components/header"
 import HeroSection from "@/components/HeroSection"
 import MainContent from "@/components/MainContent"
 import Footer from "@/components/Footer"
+import BackgroundVideo from "@/components/BackgroundVideo"
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </Head>
 
+      <BackgroundVideo />
       <Header />
       <HeroSection />
       <MainContent />

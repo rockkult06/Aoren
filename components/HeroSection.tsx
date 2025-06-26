@@ -15,31 +15,8 @@ justify-content: center;
 align-items: center;
 color: white;
 text-align: center;
-overflow: hidden; /* Ensure video doesn't overflow */
-`
-
-const BackgroundVideo = styled.video`
-position: absolute;
-top: 50%;
-left: 50%;
-min-width: 100%;
-min-height: 100%;
-width: auto;
-height: auto;
-z-index: 0;
-transform: translateX(-50%) translateY(-50%);
-background-size: cover;
-background-position: center;
-`
-
-const Overlay = styled.div`
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent overlay */
-z-index: 1;
+overflow: hidden;
+background: transparent;
 `
 
 const BoxContainer = styled.div`
@@ -119,11 +96,6 @@ const HeroSection: React.FC = () => {
 
   return (
     <HeroContainer>
-      <BackgroundVideo autoPlay loop muted playsInline ref={videoRef}>
-        <source src="/videos/background-video.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </BackgroundVideo>
-      <Overlay />
       <BoxContainer>
         <InfoBox>
           <h2>TÜRKİYE'NİN ÖNDE GELEN HUKUK BÜROLARINDAN BİRİ</h2>
