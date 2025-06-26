@@ -59,43 +59,46 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent 
                 side="left" 
-                className="w-[400px] bg-white/90 backdrop-blur-xl border-r border-gray-200/30"
+                className="border-none bg-transparent p-0 shadow-none"
               >
-                <div className="flex flex-col space-y-1 mt-8 px-2">
+                {/* Buzlu Cam Menu Kartı */}
+                <div className="m-6 bg-white/10 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-2xl p-6 w-80">
                   {/* Menu Header */}
-                  <div className="mb-8">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Menu</h2>
-                    <div className="w-12 h-0.5 bg-blue-500"></div>
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold text-white mb-2">Menu</h2>
+                    <div className="w-12 h-0.5 bg-blue-400"></div>
                   </div>
 
                   {/* Menu Items */}
-                  {[
-                    { name: "Ekibimiz", href: "/employees" },
-                    { name: "Uzmanlık Alanlarımız", href: "/uzmanlik-alanlari" },
-                    { name: "Hakkımızda", href: "/hakkimizda" },
-                    { name: "Ofislerimiz", href: "/ofislerimiz" },
-                    { name: "Haberler", href: "/haberler" },
-                    { name: "AOREN Dijital Hizmetleri", href: "/dijital-hizmetler" },
-                    { name: "Kurumsal Sosyal Sorumluluk", href: "/sosyal-sorumluluk" },
-                    { name: "AOREN'de Kariyer", href: "/kariyer" },
-                    { name: "İletişim", href: "/iletisim" },
-                  ].map((item, index) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="group relative block py-4 px-4 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-100/80 hover:backdrop-blur-lg"
-                      style={{ 
-                        animationDelay: `${index * 50}ms`,
-                        animation: 'slideInLeft 0.6s ease-out forwards'
-                      }}
-                    >
-                      <span className="text-gray-800 text-lg font-medium group-hover:text-blue-600 transition-colors duration-200">
-                        {item.name}
-                      </span>
-                      <div className="absolute bottom-0 left-4 right-4 h-px bg-gray-300/50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
-                    </Link>
-                  ))}
+                  <div className="space-y-1">
+                    {[
+                      { name: "Ekibimiz", href: "/employees" },
+                      { name: "Uzmanlık Alanlarımız", href: "/uzmanlik-alanlari" },
+                      { name: "Hakkımızda", href: "/hakkimizda" },
+                      { name: "Ofislerimiz", href: "/ofislerimiz" },
+                      { name: "Haberler", href: "/haberler" },
+                      { name: "AOREN Dijital Hizmetleri", href: "/dijital-hizmetler" },
+                      { name: "Kurumsal Sosyal Sorumluluk", href: "/sosyal-sorumluluk" },
+                      { name: "AOREN'de Kariyer", href: "/kariyer" },
+                      { name: "İletişim", href: "/iletisim" },
+                    ].map((item, index) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="group relative block py-3 px-4 rounded-xl transition-all duration-300 ease-in-out hover:bg-white/20 hover:backdrop-blur-lg"
+                        style={{ 
+                          animationDelay: `${index * 50}ms`,
+                          animation: 'slideInLeft 0.6s ease-out forwards'
+                        }}
+                      >
+                        <span className="text-white text-base font-medium group-hover:text-blue-200 transition-colors duration-200">
+                          {item.name}
+                        </span>
+                        <div className="absolute bottom-0 left-4 right-4 h-px bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Animation Keyframes */}

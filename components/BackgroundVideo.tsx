@@ -4,11 +4,7 @@ import { useState, useEffect, useRef } from "react"
 
 const BackgroundVideo = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  
-  const currentVideoRef = useRef<HTMLVideoElement>(null)
-  const nextVideoRef = useRef<HTMLVideoElement>(null)
-  const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   
   const videos = [
     "/1..mp4",
@@ -17,126 +13,64 @@ const BackgroundVideo = () => {
     "/4.mp4"
   ]
 
-  // Bir sonraki video indeksini hesapla
-  const nextVideoIndex = (currentVideoIndex + 1) % videos.length
-
   useEffect(() => {
-    const currentVideo = currentVideoRef.current
-    const nextVideo = nextVideoRef.current
-    
-    if (!currentVideo || !nextVideo) return
-
-    // Mevcut video event'lerini temizle
-    const cleanup = () => {
-      if (transitionTimeoutRef.current) {
-        clearTimeout(transitionTimeoutRef.current)
-        transitionTimeoutRef.current = null
-      }
-    }
-
-    const handleTimeUpdate = () => {
-      if (isTransitioning) return // Geçiş sırasında tekrar tetiklemeyi engelle
-      
-      const duration = currentVideo.duration
-      const currentTime = currentVideo.currentTime
-      const remainingTime = duration - currentTime
-
-      // Son 2 saniyede geçişi başlat
-      if (remainingTime <= 2 && remainingTime > 0) {
-        setIsTransitioning(true)
-        
-        // Sonraki videoyu hazırla ve başlat
-        nextVideo.currentTime = 0
-        nextVideo.load()
-        
-        const playNext = () => {
-          nextVideo.play().catch(console.error)
-        }
-        
-        // Küçük bir gecikme ile sonraki videoyu başlat
-        transitionTimeoutRef.current = setTimeout(playNext, 100)
-      }
-    }
+    const video = videoRef.current
+    if (!video) return
 
     const handleVideoEnd = () => {
-      if (!isTransitioning) return // Sadece geçiş sırasında çalışsın
-      
-      // Video geçişini tamamla
-      setTimeout(() => {
-        setCurrentVideoIndex((prev) => (prev + 1) % videos.length)
-        setIsTransitioning(false)
-      }, 500) // Smooth geçiş için kısa gecikme
+      // Sıradaki videoya geç
+      const nextIndex = (currentVideoIndex + 1) % videos.length
+      setCurrentVideoIndex(nextIndex)
     }
 
-    // Event listener'ları ekle
-    currentVideo.addEventListener('timeupdate', handleTimeUpdate)
-    currentVideo.addEventListener('ended', handleVideoEnd)
-    
-    return () => {
-      cleanup()
-      currentVideo.removeEventListener('timeupdate', handleTimeUpdate)
-      currentVideo.removeEventListener('ended', handleVideoEnd)
+    const handleLoadStart = () => {
+      console.log(`Video yükleniyor: ${videos[currentVideoIndex]}`)
     }
-  }, [currentVideoIndex, isTransitioning, videos.length])
-
-  // Ana video yüklemesi
-  useEffect(() => {
-    const currentVideo = currentVideoRef.current
-    if (!currentVideo) return
-
-    let hasStarted = false // Çift başlatmayı engelle
 
     const handleCanPlay = () => {
-      if (hasStarted) return
-      hasStarted = true
-      
-      console.log(`Video hazır: ${videos[currentVideoIndex]}`)
-      currentVideo.play().catch((error) => {
+      console.log(`Video oynatılabilir: ${videos[currentVideoIndex]}`)
+      video.play().catch((error) => {
         console.error(`Video oynatma hatası: ${videos[currentVideoIndex]}`, error)
       })
     }
 
-    const handleError = (error: any) => {
-      console.error(`Video yükleme hatası: ${videos[currentVideoIndex]}`, error)
+    const handleError = () => {
+      console.error(`Video yükleme hatası: ${videos[currentVideoIndex]}`)
+      // Hata durumunda sonraki videoya geç
+      const nextIndex = (currentVideoIndex + 1) % videos.length
+      setCurrentVideoIndex(nextIndex)
     }
 
-    // Video'yu yükle
-    currentVideo.load()
-    currentVideo.addEventListener('canplay', handleCanPlay)
-    currentVideo.addEventListener('error', handleError)
+    // Event listener'ları ekle
+    video.addEventListener('ended', handleVideoEnd)
+    video.addEventListener('loadstart', handleLoadStart)
+    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('error', handleError)
+    
+    // Video kaynağını yükle
+    video.load()
     
     return () => {
-      currentVideo.removeEventListener('canplay', handleCanPlay)
-      currentVideo.removeEventListener('error', handleError)
+      video.removeEventListener('ended', handleVideoEnd)
+      video.removeEventListener('loadstart', handleLoadStart)
+      video.removeEventListener('canplay', handleCanPlay)
+      video.removeEventListener('error', handleError)
     }
-  }, [currentVideoIndex])
+  }, [currentVideoIndex, videos])
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden -z-10">
-      {/* Mevcut Video */}
+      {/* Background Video */}
       <video
-        ref={currentVideoRef}
-        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+        ref={videoRef}
+        className="absolute inset-0 w-full h-full object-cover"
         autoPlay
         muted
         playsInline
         preload="metadata"
+        key={currentVideoIndex} // Force re-render on video change
       >
         <source src={videos[currentVideoIndex]} type="video/mp4" />
-        Tarayıcınız video elementini desteklemiyor.
-      </video>
-
-      {/* Sonraki Video (Fade-in) */}
-      <video
-        ref={nextVideoRef}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-          isTransitioning ? 'opacity-100' : 'opacity-0'
-        }`}
-        muted
-        playsInline
-        preload="metadata"
-      >
-        <source src={videos[nextVideoIndex]} type="video/mp4" />
         Tarayıcınız video elementini desteklemiyor.
       </video>
       
