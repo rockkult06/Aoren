@@ -1,6 +1,6 @@
 "use client"
 
-import Header from "@/components/Header"
+import Header from "@/components/header"
 import Footer from "@/components/Footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Linkedin, Mail } from "lucide-react"
