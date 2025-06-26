@@ -1,14 +1,16 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu } from "lucide-react"
+import { Menu, Search, User, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 import Image from "next/image"
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -21,13 +23,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navigation = [
-    { name: "Hizmetler", href: "/#services" },
-    { name: "Hakkımızda", href: "/#about" },
-    { name: "Ekibimiz", href: "/employees" },
-    { name: "İletişim", href: "/#contact" },
-  ]
-
   return (
     <header className={`fixed top-0 w-full transition-all duration-300 z-50 ${
       isScrolled 
@@ -36,8 +31,27 @@ export default function Header() {
     }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+          {/* Left Side - Menu Button */}
+          <div className="flex items-center space-x-4">
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className={isScrolled ? 'text-gray-700' : 'text-white'}>
+                  <Menu className="h-6 w-6" />
+                  <span className={`ml-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+                    Menu
+                  </span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px]">
+                <div className="flex flex-col space-y-6 mt-6">
+                  <p className="text-gray-600">Menü içeriği buraya gelecek</p>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          {/* Center - Logo */}
+          <Link href="/" className="flex items-center hover:opacity-90 transition-opacity">
             <div className="relative h-12 w-auto">
               <Image
                 src={isScrolled ? "/aoren-logo1.png" : "/aoren-logo.png"}
@@ -50,51 +64,42 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`font-medium transition-colors duration-200 ${
+          {/* Right Side - Search, User, Language */}
+          <div className="flex items-center space-x-4">
+            {/* Search Bar */}
+            <div className="hidden md:flex items-center relative">
+              <Search className={`absolute left-3 h-4 w-4 ${isScrolled ? 'text-gray-400' : 'text-white/60'}`} />
+              <Input
+                type="search"
+                placeholder="Search for lawyers, articles, practice areas ..."
+                className={`pl-10 w-80 ${
                   isScrolled 
-                    ? 'text-gray-700 hover:text-blue-600' 
-                    : 'text-white hover:text-blue-200'
+                    ? 'bg-white border-gray-200 text-gray-900 placeholder:text-gray-500' 
+                    : 'bg-white/10 border-white/20 text-white placeholder:text-white/70'
                 }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+              />
+            </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button className="bg-blue-600 hover:bg-blue-700">Ücretsiz Danışmanlık</Button>
+            {/* User Login */}
+            <Button variant="ghost" size="icon" className={isScrolled ? 'text-gray-700' : 'text-white'}>
+              <Lock className="h-5 w-5" />
+              <span className={`ml-1 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+                myAOREN
+              </span>
+            </Button>
+
+            {/* Language Selector */}
+            <Select defaultValue="tr">
+              <SelectTrigger className={`w-20 border-none bg-transparent ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="tr">TR</SelectItem>
+                <SelectItem value="en">EN</SelectItem>
+                <SelectItem value="de">DE</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-
-          {/* Mobile Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className={isScrolled ? 'text-gray-700' : 'text-white'}>
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[300px]">
-              <div className="flex flex-col space-y-6 mt-6">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-                <Button className="bg-blue-600 hover:bg-blue-700 mt-4">Ücretsiz Danışmanlık</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
         </div>
       </div>
     </header>
