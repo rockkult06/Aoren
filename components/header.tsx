@@ -23,17 +23,16 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
-            <div className="relative h-10 w-auto">
+            <div className="relative h-12 w-auto">
               <Image
-                src="/placeholder-logo.svg"
+                src="/aoren-logo.png"
                 alt="AOREN Logo"
-                width={120}
-                height={40}
-                className="h-10 w-auto object-contain"
+                width={150}
+                height={48}
+                className="h-12 w-auto object-contain"
                 priority
               />
             </div>
-            <span className="text-2xl font-bold text-gray-900 hidden sm:block">AOREN</span>
           </Link>
 
           {/* Desktop Navigation */}
