@@ -62,7 +62,7 @@ box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-  font-size: 1.3em;
+  font-size: 1.1em;
   margin-bottom: 20px;
   color: white;
   font-weight: 600;
@@ -112,7 +112,7 @@ const HeroSection: React.FC = () => {
           <p>Ofislerimizi görün</p>
         </InfoBox>
         <InfoBox>
-          <h2>TÜM HUKUKİ UZMانLIK ALANLARINI KAPSIYORUZ</h2>
+          <h2>TÜM HUKUKİ UZMANLIK ALANLARINDA HİZMET VERİYORUZ</h2>
           <p>Uzmanlık alanlarımızı görün</p>
         </InfoBox>
       </BoxContainer>

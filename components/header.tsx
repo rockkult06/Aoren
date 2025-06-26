@@ -40,11 +40,11 @@ export default function Header() {
           <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
             <div className="relative h-12 w-auto">
               <Image
-                src="/aoren-logo.png"
+                src={isScrolled ? "/aoren-logo1.png" : "/aoren-logo.png"}
                 alt="AOREN Logo"
                 width={150}
                 height={48}
-                className="h-12 w-auto object-contain"
+                className="h-12 w-auto object-contain transition-all duration-300"
                 priority
               />
             </div>
