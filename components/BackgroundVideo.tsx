@@ -4,7 +4,11 @@ import { useState, useEffect, useRef } from "react"
 
 const BackgroundVideo = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const [nextVideoIndex, setNextVideoIndex] = useState(1)
+  const [showNextVideo, setShowNextVideo] = useState(false)
+  
+  const currentVideoRef = useRef<HTMLVideoElement>(null)
+  const nextVideoRef = useRef<HTMLVideoElement>(null)
   
   const videos = [
     "/1.mp4",
@@ -14,36 +18,55 @@ const BackgroundVideo = () => {
   ]
 
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
+    const currentVideo = currentVideoRef.current
+    if (!currentVideo) return
+
+    const handleTimeUpdate = () => {
+      const duration = currentVideo.duration
+      const currentTime = currentVideo.currentTime
+      const remainingTime = duration - currentTime
+
+      // Son 3 saniyede sonraki videoyu başlat
+      if (remainingTime <= 3 && !showNextVideo) {
+        setShowNextVideo(true)
+        const nextVideo = nextVideoRef.current
+        if (nextVideo) {
+          nextVideo.currentTime = 0
+          nextVideo.play().catch(console.error)
+        }
+      }
+    }
 
     const handleVideoEnd = () => {
-      setCurrentVideoIndex((prevIndex) => 
-        prevIndex === videos.length - 1 ? 0 : prevIndex + 1
-      )
+      // Mevcut ve sonraki video indekslerini güncelle
+      setCurrentVideoIndex(nextVideoIndex)
+      setNextVideoIndex((nextVideoIndex + 1) % videos.length)
+      setShowNextVideo(false)
     }
 
-    video.addEventListener('ended', handleVideoEnd)
+    currentVideo.addEventListener('timeupdate', handleTimeUpdate)
+    currentVideo.addEventListener('ended', handleVideoEnd)
     
     return () => {
-      video.removeEventListener('ended', handleVideoEnd)
+      currentVideo.removeEventListener('timeupdate', handleTimeUpdate)
+      currentVideo.removeEventListener('ended', handleVideoEnd)
     }
-  }, [videos.length])
+  }, [currentVideoIndex, nextVideoIndex, showNextVideo])
 
   useEffect(() => {
-    const video = videoRef.current
-    if (video) {
-      video.load()
-      video.play().catch(console.error)
+    const currentVideo = currentVideoRef.current
+    if (currentVideo) {
+      currentVideo.load()
+      currentVideo.play().catch(console.error)
     }
   }, [currentVideoIndex])
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden -z-10">
-      {/* Video */}
+      {/* Mevcut Video */}
       <video
-        ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover"
+        ref={currentVideoRef}
+        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
         autoPlay
         muted
         playsInline
@@ -52,9 +75,23 @@ const BackgroundVideo = () => {
         <source src={videos[currentVideoIndex]} type="video/mp4" />
         Tarayıcınız video elementini desteklemiyor.
       </video>
+
+      {/* Sonraki Video (Fade-in) */}
+      <video
+        ref={nextVideoRef}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+          showNextVideo ? 'opacity-100' : 'opacity-0'
+        }`}
+        muted
+        playsInline
+        preload="metadata"
+      >
+        <source src={videos[nextVideoIndex]} type="video/mp4" />
+        Tarayıcınız video elementini desteklemiyor.
+      </video>
       
       {/* Koyu filtre overlay */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] z-10"></div>
     </div>
   )
 }
