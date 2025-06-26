@@ -30,27 +30,8 @@ export default function Header() {
         : 'bg-transparent border-b border-white/20'
     }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Left Side - Menu Button */}
-          <div className="flex items-center space-x-4">
-            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className={isScrolled ? 'text-gray-700' : 'text-white'}>
-                  <Menu className="h-6 w-6" />
-                  <span className={`ml-2 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
-                    Menu
-                  </span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-[300px]">
-                <div className="flex flex-col space-y-6 mt-6">
-                  <p className="text-gray-600">Menü içeriği buraya gelecek</p>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-
-          {/* Center - Logo */}
+        <div className="flex items-center justify-between h-16">
+          {/* Left - Logo */}
           <Link href="/" className="flex items-center hover:opacity-90 transition-opacity">
             <div className="relative h-12 w-auto">
               <Image
@@ -64,15 +45,35 @@ export default function Header() {
             </div>
           </Link>
 
+          {/* Center - Menu Button (Büyük) */}
+          <div className="flex-1 flex justify-center">
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className={`px-8 py-3 text-lg font-medium ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'}`}
+                >
+                  <Menu className="h-6 w-6 mr-3" />
+                  Menu
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[400px]">
+                <div className="flex flex-col space-y-6 mt-6">
+                  <p className="text-gray-600">Menü içeriği buraya gelecek</p>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+
           {/* Right Side - Search, User, Language */}
           <div className="flex items-center space-x-4">
             {/* Search Bar */}
-            <div className="hidden md:flex items-center relative">
+            <div className="hidden lg:flex items-center relative">
               <Search className={`absolute left-3 h-4 w-4 ${isScrolled ? 'text-gray-400' : 'text-white/60'}`} />
               <Input
                 type="search"
                 placeholder="Search for lawyers, articles, practice areas ..."
-                className={`pl-10 w-80 ${
+                className={`pl-10 w-64 ${
                   isScrolled 
                     ? 'bg-white border-gray-200 text-gray-900 placeholder:text-gray-500' 
                     : 'bg-white/10 border-white/20 text-white placeholder:text-white/70'
@@ -80,12 +81,10 @@ export default function Header() {
               />
             </div>
 
-            {/* User Login */}
-            <Button variant="ghost" size="icon" className={isScrolled ? 'text-gray-700' : 'text-white'}>
-              <Lock className="h-5 w-5" />
-              <span className={`ml-1 font-medium ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
-                myAOREN
-              </span>
+            {/* User Login - Kurumsal */}
+            <Button variant="ghost" className={`${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <Lock className="h-5 w-5 mr-2" />
+              <span className="font-medium">Kurumsal</span>
             </Button>
 
             {/* Language Selector */}
