@@ -62,11 +62,11 @@ export default function Header() {
                 className="border-none bg-transparent p-0 shadow-none"
               >
                 {/* Buzlu Cam Menu Kartı */}
-                <div className="m-6 bg-white/10 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-2xl p-6 w-80">
+                <div className="m-6 bg-white/70 backdrop-blur-2xl rounded-2xl border border-white/30 shadow-2xl p-6 w-80">
                   {/* Menu Header */}
                   <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-white mb-2">Menu</h2>
-                    <div className="w-12 h-0.5 bg-blue-400"></div>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Menu</h2>
+                    <div className="w-12 h-0.5 bg-blue-500"></div>
                   </div>
 
                   {/* Menu Items */}
@@ -86,16 +86,16 @@ export default function Header() {
                         key={item.name}
                         href={item.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="group relative block py-3 px-4 rounded-xl transition-all duration-300 ease-in-out hover:bg-white/20 hover:backdrop-blur-lg"
+                        className="group relative block py-3 px-4 rounded-xl transition-all duration-300 ease-in-out hover:bg-white/40 hover:backdrop-blur-lg"
                         style={{ 
                           animationDelay: `${index * 50}ms`,
                           animation: 'slideInLeft 0.6s ease-out forwards'
                         }}
                       >
-                        <span className="text-white text-base font-medium group-hover:text-blue-200 transition-colors duration-200">
+                        <span className="text-gray-800 text-base font-medium group-hover:text-blue-600 transition-colors duration-200">
                           {item.name}
                         </span>
-                        <div className="absolute bottom-0 left-4 right-4 h-px bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
+                        <div className="absolute bottom-0 left-4 right-4 h-px bg-gray-300/50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
                       </Link>
                     ))}
                   </div>
