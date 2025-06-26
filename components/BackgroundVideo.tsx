@@ -4,7 +4,9 @@ import { useState, useEffect, useRef } from "react"
 
 const BackgroundVideo = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  const [nextVideoIndex, setNextVideoIndex] = useState(1)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const nextVideoRef = useRef<HTMLVideoElement>(null)
   
   const videos = [
     "/1.mp4",
@@ -15,13 +17,20 @@ const BackgroundVideo = () => {
 
   useEffect(() => {
     const video = videoRef.current
-    if (!video) return
+    const nextVideo = nextVideoRef.current
+    if (!video || !nextVideo) return
 
     const handleTimeUpdate = () => {
-      // Video bitmesinden 2 saniye önce sıradaki videoya geç
-      if (video.duration && video.currentTime >= video.duration - 2) {
+      // Video bitmesinden 1 saniye önce sıradaki videoya geç
+      if (video.duration && video.currentTime >= video.duration - 1) {
+        // Sonraki videoyu başlat
+        nextVideo.currentTime = 0
+        nextVideo.play().catch(console.error)
+        
+        // Geçişi hemen yap
         const nextIndex = (currentVideoIndex + 1) % videos.length
         setCurrentVideoIndex(nextIndex)
+        setNextVideoIndex((nextIndex + 1) % videos.length)
       }
     }
 
@@ -29,17 +38,11 @@ const BackgroundVideo = () => {
       // Fallback: Video bittiyse sıradaki videoya geç
       const nextIndex = (currentVideoIndex + 1) % videos.length
       setCurrentVideoIndex(nextIndex)
-    }
-
-    const handleLoadStart = () => {
-      console.log(`Video yükleniyor: ${videos[currentVideoIndex]}`)
+      setNextVideoIndex((nextIndex + 1) % videos.length)
     }
 
     const handleCanPlay = () => {
-      console.log(`Video oynatılabilir: ${videos[currentVideoIndex]}`)
-      video.play().catch((error) => {
-        console.error(`Video oynatma hatası: ${videos[currentVideoIndex]}`, error)
-      })
+      video.play().catch(console.error)
     }
 
     const handleError = () => {
@@ -47,41 +50,53 @@ const BackgroundVideo = () => {
       // Hata durumunda sonraki videoya geç
       const nextIndex = (currentVideoIndex + 1) % videos.length
       setCurrentVideoIndex(nextIndex)
+      setNextVideoIndex((nextIndex + 1) % videos.length)
     }
 
     // Event listener'ları ekle
     video.addEventListener('timeupdate', handleTimeUpdate)
     video.addEventListener('ended', handleVideoEnd)
-    video.addEventListener('loadstart', handleLoadStart)
     video.addEventListener('canplay', handleCanPlay)
     video.addEventListener('error', handleError)
     
     // Video kaynağını yükle
     video.load()
+    nextVideo.load() // Sonraki videoyu da önceden yükle
     
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate)
       video.removeEventListener('ended', handleVideoEnd)
-      video.removeEventListener('loadstart', handleLoadStart)
       video.removeEventListener('canplay', handleCanPlay)
       video.removeEventListener('error', handleError)
     }
-  }, [currentVideoIndex, videos])
+  }, [currentVideoIndex, nextVideoIndex, videos])
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden -z-10">
-      {/* Background Video */}
+      {/* Current Background Video */}
       <video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
         autoPlay
         muted
         playsInline
-        preload="metadata"
-        key={currentVideoIndex} // Force re-render on video change
+        preload="auto"
+        key={`current-${currentVideoIndex}`}
       >
         <source src={videos[currentVideoIndex]} type="video/mp4" />
         Tarayıcınız video elementini desteklemiyor.
+      </video>
+      
+      {/* Next Background Video (preloaded) */}
+      <video
+        ref={nextVideoRef}
+        className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
+        muted
+        playsInline
+        preload="auto"
+        key={`next-${nextVideoIndex}`}
+      >
+        <source src={videos[nextVideoIndex]} type="video/mp4" />
       </video>
       
       {/* Koyu filtre overlay */}
