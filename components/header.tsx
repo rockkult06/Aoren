@@ -57,10 +57,60 @@ export default function Header() {
                   Menu
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[400px]">
-                <div className="flex flex-col space-y-6 mt-6">
-                  <p className="text-gray-600">Menü içeriği buraya gelecek</p>
+              <SheetContent 
+                side="left" 
+                className="w-[400px] bg-black/20 backdrop-blur-xl border-r border-white/10"
+              >
+                <div className="flex flex-col space-y-1 mt-8 px-2">
+                  {/* Menu Header */}
+                  <div className="mb-8">
+                    <h2 className="text-2xl font-bold text-white mb-2">Menu</h2>
+                    <div className="w-12 h-0.5 bg-blue-400"></div>
+                  </div>
+
+                  {/* Menu Items */}
+                  {[
+                    { name: "Ekibimiz", href: "/employees" },
+                    { name: "Uzmanlık Alanlarımız", href: "/uzmanlik-alanlari" },
+                    { name: "Hakkımızda", href: "/hakkimizda" },
+                    { name: "Ofislerimiz", href: "/ofislerimiz" },
+                    { name: "Haberler", href: "/haberler" },
+                    { name: "AOREN Dijital Hizmetleri", href: "/dijital-hizmetler" },
+                    { name: "Kurumsal Sosyal Sorumluluk", href: "/sosyal-sorumluluk" },
+                    { name: "AOREN'de Kariyer", href: "/kariyer" },
+                    { name: "İletişim", href: "/iletisim" },
+                  ].map((item, index) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="group relative block py-4 px-4 rounded-lg transition-all duration-300 ease-in-out hover:bg-white/10 hover:backdrop-blur-lg"
+                      style={{ 
+                        animationDelay: `${index * 50}ms`,
+                        animation: 'slideInLeft 0.6s ease-out forwards'
+                      }}
+                    >
+                      <span className="text-white text-lg font-medium group-hover:text-blue-200 transition-colors duration-200">
+                        {item.name}
+                      </span>
+                      <div className="absolute bottom-0 left-4 right-4 h-px bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
+                    </Link>
+                  ))}
                 </div>
+
+                {/* Animation Keyframes */}
+                <style jsx>{`
+                  @keyframes slideInLeft {
+                    from {
+                      opacity: 0;
+                      transform: translateX(-20px);
+                    }
+                    to {
+                      opacity: 1;
+                      transform: translateX(0);
+                    }
+                  }
+                `}</style>
               </SheetContent>
             </Sheet>
           </div>
