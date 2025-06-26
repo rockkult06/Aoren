@@ -11,7 +11,7 @@ const BackgroundVideo = () => {
   const nextVideoRef = useRef<HTMLVideoElement>(null)
   
   const videos = [
-    "/1.mp4",
+    "/1..mp4",
     "/2.mp4", 
     "/3.mp4",
     "/4.mp4"
@@ -57,9 +57,28 @@ const BackgroundVideo = () => {
     const currentVideo = currentVideoRef.current
     if (currentVideo) {
       currentVideo.load()
-      currentVideo.play().catch(console.error)
+      
+      // Video yüklendi mi kontrol et
+      const handleLoadedData = () => {
+        console.log(`Video yüklendi: ${videos[currentVideoIndex]}`)
+        currentVideo.play().catch((error) => {
+          console.error(`Video oynatma hatası: ${videos[currentVideoIndex]}`, error)
+        })
+      }
+
+      const handleError = (error: any) => {
+        console.error(`Video yükleme hatası: ${videos[currentVideoIndex]}`, error)
+      }
+
+      currentVideo.addEventListener('loadeddata', handleLoadedData)
+      currentVideo.addEventListener('error', handleError)
+      
+      return () => {
+        currentVideo.removeEventListener('loadeddata', handleLoadedData)
+        currentVideo.removeEventListener('error', handleError)
+      }
     }
-  }, [currentVideoIndex])
+  }, [currentVideoIndex, videos])
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden -z-10">
