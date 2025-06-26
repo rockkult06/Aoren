@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, Search, User, Lock } from "lucide-react"
+import { Menu, Search, User, Lock, Users, Scale, Info, Building, Newspaper, Computer, Heart, Briefcase, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
@@ -72,16 +72,18 @@ export default function Header() {
                   {/* Menu Items */}
                   <div className="space-y-1">
                     {[
-                      { name: "Ekibimiz", href: "/employees" },
-                      { name: "Uzmanlık Alanlarımız", href: "/uzmanlik-alanlari" },
-                      { name: "Hakkımızda", href: "/hakkimizda" },
-                      { name: "Ofislerimiz", href: "/ofislerimiz" },
-                      { name: "Haberler", href: "/haberler" },
-                      { name: "AOREN Dijital Hizmetleri", href: "/dijital-hizmetler" },
-                      { name: "Kurumsal Sosyal Sorumluluk", href: "/sosyal-sorumluluk" },
-                      { name: "AOREN'de Kariyer", href: "/kariyer" },
-                      { name: "İletişim", href: "/iletisim" },
-                    ].map((item, index) => (
+                      { name: "Ekibimiz", href: "/employees", icon: Users },
+                      { name: "Uzmanlık Alanlarımız", href: "/uzmanlik-alanlari", icon: Scale },
+                      { name: "Hakkımızda", href: "/hakkimizda", icon: Info },
+                      { name: "Ofislerimiz", href: "/ofislerimiz", icon: Building },
+                      { name: "Haberler", href: "/haberler", icon: Newspaper },
+                      { name: "AOREN Dijital Hizmetleri", href: "/dijital-hizmetler", icon: Computer },
+                      { name: "Kurumsal Sosyal Sorumluluk", href: "/sosyal-sorumluluk", icon: Heart },
+                      { name: "AOREN'de Kariyer", href: "/kariyer", icon: Briefcase },
+                      { name: "İletişim", href: "/iletisim", icon: Mail },
+                    ].map((item, index) => {
+                      const IconComponent = item.icon;
+                      return (
                       <Link
                         key={item.name}
                         href={item.href}
@@ -92,9 +94,12 @@ export default function Header() {
                           animation: 'slideInLeft 0.6s ease-out forwards'
                         }}
                       >
-                        <span className="text-gray-800 text-base font-medium group-hover:text-blue-600 transition-colors duration-200">
-                          {item.name}
-                        </span>
+                        <div className="flex items-center gap-3">
+                          <IconComponent className="w-5 h-5 text-gray-700 group-hover:text-blue-600 transition-colors duration-200" />
+                          <span className="text-gray-800 text-base font-medium group-hover:text-blue-600 transition-colors duration-200">
+                            {item.name}
+                          </span>
+                        </div>
                         <div className="absolute bottom-0 left-4 right-4 h-px bg-gray-300/50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
                       </Link>
                     ))}
