@@ -1,19 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, Scale } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import Link from "next/link" // Link bileşenini içe aktar
+import Link from "next/link"
+import Image from "next/image"
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   const navigation = [
-    { name: "Hizmetler", href: "/#services" }, // Ana sayfa ve hizmetler bölümüne yönlendirme
-    { name: "Hakkımızda", href: "/#about" }, // Ana sayfa ve hakkımızda bölümüne yönlendirme
-    { name: "Ekibimiz", href: "/employees" }, // Ekibimiz sayfasına yönlendirme
-    { name: "İletişim", href: "/#contact" }, // Ana sayfa ve iletişim bölümüne yönlendirme
+    { name: "Hizmetler", href: "/#services" },
+    { name: "Hakkımızda", href: "/#about" },
+    { name: "Ekibimiz", href: "/employees" },
+    { name: "İletişim", href: "/#contact" },
   ]
 
   return (
@@ -21,15 +22,24 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Scale className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold text-gray-900">AOREN</span>
-          </div>
+          <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+            <div className="relative h-10 w-auto">
+              <Image
+                src="/placeholder-logo.svg"
+                alt="AOREN Logo"
+                width={120}
+                height={40}
+                className="h-10 w-auto object-contain"
+                priority
+              />
+            </div>
+            <span className="text-2xl font-bold text-gray-900 hidden sm:block">AOREN</span>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {navigation.map((item) => (
-              <Link // <a> yerine Link kullan
+              <Link
                 key={item.name}
                 href={item.href}
                 className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
@@ -54,11 +64,11 @@ export default function Header() {
             <SheetContent side="right" className="w-[300px]">
               <div className="flex flex-col space-y-6 mt-6">
                 {navigation.map((item) => (
-                  <Link // <a> yerine Link kullan
+                  <Link
                     key={item.name}
                     href={item.href}
                     className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors"
-                    onClick={() => setIsOpen(false)} // Menü öğesine tıklandığında menüyü kapat
+                    onClick={() => setIsOpen(false)}
                   >
                     {item.name}
                   </Link>
